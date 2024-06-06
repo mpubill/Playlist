@@ -80,6 +80,14 @@ export class PlaylistService {
     return this.http.put(`http://localhost:8080/api/playlist/edit/${id}`, playlist);
   }
 
+  obtenerArtistaPorId(id: string): Observable<any> {
+    return this.http.get(`http://localhost:8080/api/artista/${id}`);
+  }
+
+  actualizarArtista(id: number, artista: any): Observable<any> {
+    return this.http.put(`http://localhost:8080/api/artista/edit/${id}`, artista);
+  }
+
   
   
   EditarCanciones(idProducto: number, datosActualizados: any): Observable<any> {

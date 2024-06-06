@@ -1,1 +1,33 @@
-<p>editar-artista works!</p>
+<!-- Header Start -->
+<div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
+    <div class="container text-center py-5">
+        <h1 class="text-white display-3 mt-lg-5">Modificar Playlist</h1>
+    </div>
+</div>
+<!-- Header End -->
+
+<div class="container-fluid fondo-con-imagen">
+    <br>
+    <br>
+    <br>
+    <div class="card custom-card mt-5">
+        <div class="card-body mt-5">
+            <h1 class="text-center mb-5" style="color: #470b0b;">Modificar Playlist</h1>
+            <form (ngSubmit)="guardarProducto()" #formulario="ngForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" [(ngModel)]="nombre" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="imagenUrl">Imagen:</label>
+                    <input type="file" id="imagenUrl" name="imagenUrl" (change)="onFileSelected($event)" accept="image/*" class="form-control-file">
+                    <img id="imagenPrevista" [src]="imagenVistaPrevia" alt="Vista previa de la imagen" style="display: block; margin-top: 10px; width: 150px; height: 150px;">
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+</div>

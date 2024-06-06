@@ -72,24 +72,41 @@ export class VerPlaylistComponent implements OnInit{
       });
   }
 
-  eliminarPlaylist(artista: any){
-    const id = artista.id;
-    console.log(id)
-
-    this.PlaylistService.EliminarsPlaylist(id).subscribe(
-      (data: any) => {
-        // Assuming data.token exists in the response
-        if (data) {
-          this.categorias = data;
-        } else{
-          this.mostrarAlerta();
-        }
-      },
-      (error) => {
-        console.log(error);
+  eliminarPlaylist(playlist: any) {
+    const id = playlist.id;
+    console.log(id);
+  
+    // Pedir confirmación al usuario antes de eliminar la playlist
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Estás a punto de eliminar esta playlist. Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si el usuario confirma la eliminación, realizar la solicitud HTTP para eliminar la playlist
+        this.PlaylistService.EliminarsPlaylist(id).subscribe(
+          (data: any) => {
+            if (data) {
+              this.categorias = data;
+            } else {
+              this.mostrarAlerta();
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       }
-    );
+    });
   }
+  
+  
+  
 
   editarItem(ejercicios: any) {
     const id = ejercicios.id;

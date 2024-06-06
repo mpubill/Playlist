@@ -48,24 +48,49 @@ export class VerArtistaComponent {
 
   editarArtista(artista: any){}
 
-  eliminarArtista(artista: any){
+  eliminarArtista(artista: any) {
     const id = artista.id;
-    console.log(id)
+    console.log(id);
 
-    this.PlaylistService.EliminarsArtista(id).subscribe(
-      (data: any) => {
-        // Assuming data.token exists in the response
-        if (data) {
-          this.artistas = data;
-        } else{
-          this.mostrarAlerta();
-        }
-      },
-      (error) => {
-        console.log(error);
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Si eliminas este artista, también se eliminarán todas las canciones asociadas. ¿Quieres continuar?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.PlaylistService.EliminarsArtista(id).subscribe(
+          (data: any) => {
+            if (data) {
+              this.artistas = data;
+            } else {
+              this.mostrarAlerta('¡Se eliminó correctamente!', 'success');
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       }
-    );
-  }
+    });
+}
+
+mostrarAlerta(mensaje: string, icono: any) {
+    Swal.fire({
+      title: mensaje,
+      icon: icono,
+      timer: 1000,
+      showConfirmButton: false,
+      didClose: () => {
+        window.location.reload();
+      }
+    });
+}
+
 
   selectedFile: File | null = null;
   selectedFile2: File | null = null;
@@ -167,17 +192,7 @@ export class VerArtistaComponent {
   
   }
 
-  mostrarAlerta() {
-    Swal.fire({
-      title: 'Se eliminó correctamente',
-      icon: 'success',
-      timer: 1000,
-      showConfirmButton: false,
-      didClose: () => {
-        window.location.reload();
-      }
-    });
-}
+  
 
 openModal() {
   const modalElement = document.getElementById('modalAgregarCancion');
@@ -197,6 +212,22 @@ closeModal() {
     modalElement.setAttribute('aria-modal', 'false');
     modalElement.setAttribute('aria-hidden', 'true');
   }
+}
+
+editarItem(ejercicios: any) {
+  const id = ejercicios.id;
+  console.log(id)
+  // Crear una cookie con el categoryId como valor
+  this.cookieService.set('artista', id);
+
+  // Realiza cualquier otra acción que necesites con el categoryId
+  console.log('ID de la categoría seleccionada:', id);
+
+  // También puedes verificar que la cookie se haya creado correctamente
+  const cookieValue = this.cookieService.get('artista');
+  console.log('Valor de la cookie:', cookieValue);
+
+  this.router.navigateByUrl("/editar-artista");
 }
 
 }

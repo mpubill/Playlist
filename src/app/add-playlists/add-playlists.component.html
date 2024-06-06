@@ -1,0 +1,52 @@
+     <!-- Header Start -->
+     <div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
+        <div class="container text-center py-5">
+            <h1 class="text-white display-3 mt-lg-5">Crear Playlist</h1>
+            <div class="d-inline-flex align-items-center text-white">
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+ <!-- Contact Start -->
+ <div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h1 class="section-title position-relative text-center mb-5">Ingresa los datos para una nueva playlist</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <div class="contact-form bg-light rounded p-5">
+                    <div id="success"></div>
+                    <form (ngSubmit)="GuardarPlayList()" #formulario="ngForm" name="sentMessage" id="contactForm" novalidate="novalidate">
+                        <div class="form-row">
+                            <div class="col-sm-6 control-group">
+                                <input type="text" class="form-control p-4" [(ngModel)]="nombre" id="nombre"  name="nombre" placeholder="Nombre de la playlist" required="required" data-validation-required-message="Please enter your name" />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="col-sm-6 control-group">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="imagenUrl">URL de la Imagen:</label>
+                            <input type="file" id="imagenUrl" name="imagenUrl"
+                                (change)="onFileSelected($event)" accept="image/*" required class="form-control-file"> <br><br>
+                                <img id="imagenPrevista" alt="Vista previa de la imagen" style="display: none;" width="100px" height="100px">
+                          </div>
+                        <div>
+                            <button class="btn btn-primary btn-block py-3 px-5" type="submit" id="sendMessageButton">Crear Playlist</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+crossorigin="anonymous"></script>
+<!-- Contact End -->

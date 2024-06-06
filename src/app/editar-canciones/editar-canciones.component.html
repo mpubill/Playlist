@@ -1,0 +1,55 @@
+    <!-- Header Start -->
+    <div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
+        <div class="container text-center py-5">
+            <h1 class="text-white display-3 mt-lg-5">Agregar Canciones</h1>
+            <div class="d-inline-flex align-items-center text-white">
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+<div class="container-fluid fondo-con-imagen">
+  
+    <br>
+    <br>
+    <br>
+    <div class="card custom-card mt-5">
+      <div class="card-body mt-5" >
+        <h1 class="text-center mb-5 " style="color: #470b0b;">Modificar canción</h1>
+        
+        <form (ngSubmit)="guardarProducto()" #formulario="ngForm">
+            <div class="form-group">
+              <label for="nombre">Nombre:</label>
+              <input type="text" id="nombre" name="nombre" [(ngModel)]="nombre" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre">artista:</label>
+                <input type="text" id="artista" name="artista" [(ngModel)]="artista" class="form-control" required>
+              </div>
+            <div class="form-group">
+                <label for="imagenUrl">URL de la Imagen:</label>
+                <input type="file" id="imagenUrl" name="imagenUrl" [(ngModel)]="imagen"
+                  (change)="onFileSelected($event)" accept="image/*" required class="form-control-file">
+            </div>
+            <div class="form-group">
+                <label for="imagenUrl">URL de la canción:</label>
+                <input type="file" id="imagenUrl" name="imagenUrl" [(ngModel)]="cancion"
+                  (change)="onFileSelected2($event)" accept="image/*" required class="form-control-file">
+            </div>
+            <div class="form-group">
+              <label for="categoria">Selecciona una categoría:</label>
+              <select id="categoria" name="categoria" [(ngModel)]="idplaylist" class="form-control">
+                <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </form>
+          
+          
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+  </div>
+

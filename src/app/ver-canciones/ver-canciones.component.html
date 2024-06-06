@@ -1,0 +1,38 @@
+<!-- Header Start -->
+<div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
+    <div class="container text-center py-5">
+        <h1 class="text-white display-3 mt-lg-5">Reproduciendo playlist</h1>
+        <div class="d-inline-flex align-items-center text-white">
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+
+
+<div class="card m-5">
+    <div class="position-relative">
+        <img src="assets/img/kirby.jpg" style="opacity: 60%;" alt="Imagen de portada" height="160px" width="100%" class="card-img-top">
+        <div class="card-img-overlay">
+          <h5 class="card-title" style="color: black;"><strong>Lista de Canciones</strong></h5>
+        </div>
+      </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li *ngFor="let cancion of canciones" class="list-group-item song-item">
+              <div class="song-cover">
+                <img [src]="cancion.imagen" alt="Portada de la canción" class="song-image">
+              </div>
+              <div class="song-info">
+                <h3 class="song-title">{{ cancion.nombre }}</h3>
+                <p class="song-artist">{{ cancion.artista }}</p>
+              </div>
+              <audio controls>
+                <source [src]="cancion.cancion" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+              </audio>
+            </li>
+          </ul>
+    </div>
+  </div>
+  
+  

@@ -1,0 +1,50 @@
+   
+    <!-- Header Start -->
+    <div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
+        <div class="container text-center py-5">
+            <h1 class="text-white display-3 mt-lg-5">Agregar Artistas</h1>
+            <div class="d-inline-flex align-items-center text-white">
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <h1 class="section-title position-relative text-center mb-5">Ingresa la informacion del artista</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <div class="contact-form bg-light rounded p-5">
+                        <div id="success"></div>
+                        <form (ngSubmit)="GuardarArtista()" #formulario="ngForm" name="sentMessage" id="contactForm" novalidate="novalidate">
+                            <div class="form-row">
+                                <div class="col-sm-6 control-group">
+                                    <input type="text" class="form-control p-4" id="nombre" name="nombre" [(ngModel)]="nombre" placeholder="Nombre del Artista" required="required" data-validation-required-message="Please enter your name" />
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label for="imagenUrl">Imagen:</label>
+                                <input type="file" id="imagenUrl" name="imagenUrl"
+                                (change)="onFileSelected($event)" accept="image/*" required class="form-control-file"> <br><br>
+                                <img id="imagenPrevista" alt="Vista previa de la imagen" style="display: none;" width="100px" height="100px">
+                            </div><br>
+                            <div>
+                                <button class="btn btn-primary btn-block py-3 px-5" type="submit" id="sendMessageButton">Agregar Artista</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+
+    
+    

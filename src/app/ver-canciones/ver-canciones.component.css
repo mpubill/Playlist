@@ -1,0 +1,101 @@
+/* Estilo general para la lista de canciones */
+.song-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Estilo para cada elemento de la lista de canciones */
+  .song-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e1e1e1;
+    padding: 10px;
+    transition: background-color 0.2s;
+  }
+  
+  .song-item:hover {
+    background-color: #f7f7f7;
+  }
+  
+  /* Estilos para título y artista */
+  .song-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .song-artist {
+    font-size: 14px;
+    color: #888;
+    margin: 0;
+  }
+  
+  /* Estilo para la imagen de la portada */
+  .song-image {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+
+  .card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Agrega sombreado al pasar el cursor */
+    transition: box-shadow 0.3s ease; /* Agrega una transición suave */
+  }
+
+  .song-item {
+    margin-bottom: 20px; /* Agrega un margen en la parte inferior de cada elemento de la lista */
+  }
+  
+  /* Opcional: Separación entre la imagen y la información de la canción */
+  .song-image {
+    margin-right: 20px; /* Agrega margen a la derecha de la imagen */
+  }
+
+  audio {
+    width: 100%;
+    margin-top: 10px;
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  /* Cambiar el color de fondo del botón de reproducción */
+  audio::-webkit-media-controls-play-button,
+  audio::-webkit-media-controls-start-playback-button {
+    background-color: #007bff; /* Color azul, puedes cambiarlo */
+    color: #fff; /* Color del icono de reproducción */
+    border-radius: 50%; /* Botón redondeado */
+    font-size: 20px; /* Tamaño del icono */
+  }
+  
+  /* Cambiar el color del progreso de reproducción */
+  audio::-webkit-media-controls-playback-progress-bar {
+    background-color: #007bff; /* Color azul, puedes cambiarlo */
+  }
+
+
+  /* Estilos para el texto superpuesto sobre la imagen */
+.card-title,
+.card-text {
+  font-size: 24px; /* Tamaño del texto, ajusta según tus preferencias */
+  text-align: center; /* Centrar el texto horizontalmente */
+}
+
+.card-img-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Centrar el texto verticalmente */
+}
+
+/* Estilos para la imagen de portada */
+.card-img-top {
+  height: 160px;
+  width: 100%;
+}
+
+  

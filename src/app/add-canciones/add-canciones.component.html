@@ -1,0 +1,60 @@
+    <!-- Header Start -->
+    <div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
+        <div class="container text-center py-5">
+            <h1 class="text-white display-3 mt-lg-5">Agregar Canciones</h1>
+            <div class="d-inline-flex align-items-center text-white">
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <h1 class="section-title position-relative text-center mb-5">Ingresa la informacion de la canción</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <div class="contact-form bg-light rounded p-5">
+                        <div id="success"></div>
+                        <form (ngSubmit)="guardarProducto()" #formulario="ngForm" name="sentMessage" id="contactForm" novalidate="novalidate">
+                            <div class="form-row">
+                                <div class="col-sm-6 control-group">
+                                    <input type="text" class="form-control p-4" id="nombre" name="nombre" [(ngModel)]="nombre" placeholder="Nombre de la canción" required="required" data-validation-required-message="Please enter your name" />
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="col-sm-6 control-group">
+                                    <input type="text" class="form-control p-4" id="artista" name="artista" [(ngModel)]="artista" placeholder="Artista" required="required" data-validation-required-message="Please enter your email" />
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label for="imagenUrl">Imagen:</label>
+                                <input type="file" id="imagenUrl" name="imagenUrl" [(ngModel)]="imagen"
+                                (change)="onFileSelected($event)" accept="image/*" required class="form-control-file">
+                            </div><br>
+                            <div class="control-group">
+                                <label for="imagenUrl">Archivo de la canción:</label>
+                                <input type="file" id="imagenUrl" name="imagenUrl" [(ngModel)]="cancion"
+                                (change)="onFileSelected2($event)" accept="image/*" required class="form-control-file">
+                            </div><br>
+                            <div class="control-group">
+                                <label for="categoria">Selecciona una playlist: </label>
+                                <select id="categoria" name="categoria" [(ngModel)]="idplaylist" class="form-control">
+                                    <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
+                                </select>
+                            </div><br><br>
+                            <div>
+                                <button class="btn btn-primary btn-block py-3 px-5" type="submit" id="sendMessageButton">Agregar Canción</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->

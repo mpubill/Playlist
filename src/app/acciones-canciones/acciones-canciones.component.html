@@ -1,0 +1,43 @@
+    <!-- Header Start -->
+    <div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
+        <div class="container text-center py-5">
+            <h1 class="text-white display-3 mt-lg-5">Canciones</h1>
+            <div class="d-inline-flex align-items-center text-white">
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+<div class="container-fluid fondo-con-imagen">
+    <table class="table table-striped custom-table">
+        <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>artista</th>
+                <th>Acciones</th> <!-- Agregamos una columna para las acciones -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pr of canciones">
+                <td>
+                    <img [src]="pr.imagen" alt="{{ pr.nombre }}" class="table-image-extra-small" />
+                </td>
+                <td>
+                    <h5 class="table-title">{{ pr.nombre }}</h5>
+                </td>
+                <td>
+                    <p class="table-description">{{ pr.artista }}</p>
+                </td>
+                <td>
+                    <button class="btn btn-primary me-2" (click)="editarItem(pr)"> <!-- Botón para editar -->
+                        Agregar a playlist<!-- Ícono de editar (usando FontAwesome) -->
+                    </button>
+                    <button class="btn btn-danger" > Eliminar<!-- Ícono de eliminar (usando FontAwesome) -->
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

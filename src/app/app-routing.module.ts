@@ -9,6 +9,8 @@ import { AccionesCancionesComponent } from './acciones-canciones/acciones-cancio
 import { EditarCancionesComponent } from './editar-canciones/editar-canciones.component';
 import { AddArtistaComponent } from './add-artista/add-artista.component';
 import { VerArtistaComponent } from './ver-artista/ver-artista.component';
+import { EditarPlaylistComponent } from './editar-playlist/editar-playlist.component';
+import { EditarArtistaComponent } from './editar-artista/editar-artista.component';
 
 
 const appRoutes: Routes = [
@@ -22,6 +24,8 @@ const appRoutes: Routes = [
   { path: "editar", component: EditarCancionesComponent},
   { path: "add-artista", component: AddArtistaComponent},
   { path: "ver-artista", component: VerArtistaComponent},
+  { path: "editar-playlist", component: EditarPlaylistComponent},
+  { path: "editar-artista", component: EditarArtistaComponent}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

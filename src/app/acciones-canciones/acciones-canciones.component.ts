@@ -71,25 +71,25 @@ export class AccionesCancionesComponent implements OnInit{
 
 
 
-  // eliminarItem(ejercicios: any){
+  eliminarCancion(ejercicios: any){
 
-  //   const id = ejercicios.id;
-  //   console.log(id)
+    const id = ejercicios.id;
+    console.log(id)
 
-  //   this.PlaylistService.Eliminars(id).subscribe(
-  //     (data: any) => {
-  //       // Assuming data.token exists in the response
-  //       if (data) {
-  //         this.canciones = data;
-  //       } else{
-  //         this.mostrarAlerta();
-  //       }
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  //}
+    this.PlaylistService.EliminarsCancion(id).subscribe(
+      (data: any) => {
+        // Assuming data.token exists in the response
+        if (data) {
+          this.canciones = data;
+        } else{
+          this.mostrarAlerta();
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 
 
 }

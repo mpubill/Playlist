@@ -15,6 +15,8 @@ import { AccionesCancionesComponent } from './acciones-canciones/acciones-cancio
 import { EditarCancionesComponent } from './editar-canciones/editar-canciones.component';
 import { AddArtistaComponent } from './add-artista/add-artista.component';
 import { VerArtistaComponent } from './ver-artista/ver-artista.component';
+import { EditarPlaylistComponent } from './editar-playlist/editar-playlist.component';
+import { EditarArtistaComponent } from './editar-artista/editar-artista.component';
 
 
 
@@ -30,7 +32,9 @@ import { VerArtistaComponent } from './ver-artista/ver-artista.component';
     AccionesCancionesComponent,
     EditarCancionesComponent,
     AddArtistaComponent,
-    VerArtistaComponent
+    VerArtistaComponent,
+    EditarPlaylistComponent,
+    EditarArtistaComponent
   ],
   imports: [
     BrowserModule,

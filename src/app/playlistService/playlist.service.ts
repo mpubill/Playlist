@@ -66,6 +66,21 @@ export class PlaylistService {
     return this.http.delete(url);
   }
 
+  EliminarsCancion(user: any): Observable<any> {
+    const url = `http://localhost:8080/api/cancion/delete/${user}`;
+
+    return this.http.delete(url);
+  }
+
+  obtenerPlaylistPorId(id: string): Observable<any> {
+    return this.http.get(`http://localhost:8080/api/playlist/${id}`);
+  }
+
+  actualizarPlaylist(id: number, playlist: any): Observable<any> {
+    return this.http.put(`http://localhost:8080/api/playlist/edit/${id}`, playlist);
+  }
+
+  
   
   EditarCanciones(idProducto: number, datosActualizados: any): Observable<any> {
     const url = `https://localhost:7078/api/cancion/Actualizar/${idProducto}`;

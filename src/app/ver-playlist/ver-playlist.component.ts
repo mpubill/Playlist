@@ -15,6 +15,8 @@ export class VerPlaylistComponent implements OnInit{
   constructor(public PlaylistService: PlaylistService, private router: Router, private http: HttpClient, private cookieService: CookieService) { }
 
   categorias: any[] = [];
+  playlistSeleccionado: any = {};
+  selectedFile: File | null = null;
 
 
 
@@ -88,5 +90,22 @@ export class VerPlaylistComponent implements OnInit{
       }
     );
   }
+
+  editarItem(ejercicios: any) {
+    const id = ejercicios.id;
+    console.log(id)
+    // Crear una cookie con el categoryId como valor
+    this.cookieService.set('playlist', id);
+
+    // Realiza cualquier otra acción que necesites con el categoryId
+    console.log('ID de la categoría seleccionada:', id);
+
+    // También puedes verificar que la cookie se haya creado correctamente
+    const cookieValue = this.cookieService.get('playlist');
+    console.log('Valor de la cookie:', cookieValue);
+
+    this.router.navigateByUrl("/editar-playlist");
+  }
+  
 
 }

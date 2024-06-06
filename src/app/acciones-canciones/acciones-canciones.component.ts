@@ -57,6 +57,39 @@ export class AccionesCancionesComponent implements OnInit{
 
 
   
+  eliminarCancion(cancion: any) {
+    const id = cancion.id;
+    console.log(id);
+  
+    // Pedir confirmación al usuario antes de eliminar la canción
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Estás a punto de eliminar esta canción. Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si el usuario confirma la eliminación, realizar la solicitud HTTP para eliminar la canción
+        this.PlaylistService.EliminarsCancion(id).subscribe(
+          (data: any) => {
+            if (data) {
+              this.canciones = data;
+            } else {
+              this.mostrarAlerta();
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    });
+  }
+  
   mostrarAlerta() {
     Swal.fire({
       title: 'Se eliminó correctamente',
@@ -67,29 +100,8 @@ export class AccionesCancionesComponent implements OnInit{
         window.location.reload();
       }
     });
-}
-
-
-
-  eliminarCancion(ejercicios: any){
-
-    const id = ejercicios.id;
-    console.log(id)
-
-    this.PlaylistService.EliminarsCancion(id).subscribe(
-      (data: any) => {
-        // Assuming data.token exists in the response
-        if (data) {
-          this.canciones = data;
-        } else{
-          this.mostrarAlerta();
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
   }
+  
 
 
 }

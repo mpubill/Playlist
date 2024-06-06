@@ -8,6 +8,37 @@
     </div>
     <!-- Header End -->
 
+    <!-- Modal Agregar Canción -->
+<div class="modal fade" id="modalAgregarCancion" tabindex="-1" role="dialog" aria-labelledby="modalAgregarCancionLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarCancionLabel">Agregar Canción</h5>
+                <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario para agregar canción -->
+                <form (ngSubmit)="GuardarEnPlayList()" #formularioCancion="ngForm">
+                    <div class="form-group">
+                        <label for="playlist">Selecciona una Playlist:</label>
+                        <select class="form-control" id="playlist" name="playlist" [(ngModel)]="playlistSeleccionada" required>
+                          <option *ngFor="let playlist of categorias" [value]="playlist.id">
+                            {{ playlist.nombre }}
+                          </option>
+                        </select>
+                        <input type="hidden" id="idArtista" name="idArtista" [(ngModel)]="CancionSeleccionada2.id">
+                      </div>
+                        
+                    
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+
 <div class="container-fluid fondo-con-imagen">
     <table class="table table-striped custom-table">
         <thead>
@@ -30,7 +61,7 @@
                     <p class="table-description">{{ pr.artista }}</p>
                 </td>
                 <td>
-                    <button class="btn btn-primary me-2" (click)="editarItem(pr)"> <!-- Botón para editar -->
+                    <button class="btn btn-primary me-2" (click)="CancionSeleccionada(pr)"> <!-- Botón para editar -->
                         Agregar a playlist<!-- Ícono de editar (usando FontAwesome) -->
                     </button>
                     <button class="btn btn-danger" (click)="eliminarCancion(pr)"> Eliminar<!-- Ícono de eliminar (usando FontAwesome) -->

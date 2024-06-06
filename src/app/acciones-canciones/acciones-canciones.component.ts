@@ -21,6 +21,22 @@ export class AccionesCancionesComponent implements OnInit{
   imagen: string = "";
   cancion: string = "";
   idplaylist: number = 0; 
+  playlist: string = "";
+
+  categorias: any[] = [];
+  nombre2: string = "";
+  id2: number = 0;
+
+  playlistSeleccionada: number | null = null;
+
+
+  CancionSeleccionada2: any = {}; // Variable para almacenar el artista seleccionado
+  
+  CancionSeleccionada(pr: any) {
+    this.CancionSeleccionada2 = pr;
+    this.openModal();
+  }
+
 
   ngOnInit(): void {
 
@@ -29,6 +45,18 @@ export class AccionesCancionesComponent implements OnInit{
         // Assuming data.token exists in the response
         if (data) {
           this.canciones = data;
+        } 
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this.PlaylistService.obtenerPlaylist().subscribe(
+      (data: any) => {
+        // Assuming data.token exists in the response
+        if (data) {
+          this.categorias = data;
         } 
       },
       (error) => {
@@ -71,6 +99,51 @@ export class AccionesCancionesComponent implements OnInit{
 
 
 
+
+
+
+
+
+
+GuardarEnPlayList() {
+  const formData = {
+    idCancion: Number(this.CancionSeleccionada2.id), // Convertir a número
+    idPlaylist: Number(this.playlistSeleccionada) // Convertir a número
+  };
+
+
+    // Imprimir los valores de formData en la consola
+    console.log('Datos del formulario:', formData);
+
+
+  this.PlaylistService.guardarCancionEnPlaylist(formData).subscribe(
+    (response: any) => {
+      console.log('Canción agregada a la playlist exitosamente:', response);
+      this.mostrarAlerta2();
+      this.closeModal();
+    },
+    (error) => {
+      console.error('Error agregando la canción a la playlist:', error);
+    }
+  );
+}
+
+
+mostrarAlerta2() {
+  Swal.fire({
+    title: 'Se Agrego a la Playlist',
+    icon: 'success',
+    timer: 1000,
+    showConfirmButton: false,
+    didClose: () => {
+      window.location.reload();
+    }
+  });
+}
+
+
+
+
   eliminarCancion(ejercicios: any){
 
     const id = ejercicios.id;
@@ -91,5 +164,29 @@ export class AccionesCancionesComponent implements OnInit{
     );
   }
 
+
+
+
+
+
+  openModal() {
+    const modalElement = document.getElementById('modalAgregarCancion');
+    if (modalElement) {
+      modalElement.style.display = 'block';
+      modalElement.classList.add('show');
+      modalElement.setAttribute('aria-modal', 'true');
+      modalElement.setAttribute('aria-hidden', 'false');
+    }
+  }
+  
+  closeModal() {
+    const modalElement = document.getElementById('modalAgregarCancion');
+    if (modalElement) {
+      modalElement.style.display = 'none';
+      modalElement.classList.remove('show');
+      modalElement.setAttribute('aria-modal', 'false');
+      modalElement.setAttribute('aria-hidden', 'true');
+    }
+  }
 
 }

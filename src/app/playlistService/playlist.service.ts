@@ -95,7 +95,9 @@ export class PlaylistService {
     return this.http.get(url);
   }
 
-  
+  guardarCancionEnPlaylist(user: any): Observable<any> {
+    return this.http.post('http://localhost:8080/api/cancionesplaylists/create', user);
+  }
   
   
 

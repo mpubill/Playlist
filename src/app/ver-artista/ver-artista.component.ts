@@ -79,6 +79,8 @@ export class VerArtistaComponent {
     // Obtén el archivo seleccionado
     this.selectedFile2 = event.target.files[0];
   }
+
+  
   agregarCancion(){
     
 

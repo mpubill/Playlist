@@ -1,9 +1,9 @@
 <!-- Header Start -->
 <div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
   <div class="container text-center py-5">
-      <h1 class="text-white display-3 mt-lg-5">Lista de Artistas</h1>
-      <div class="d-inline-flex align-items-center text-white">
-      </div>
+    <h1 class="text-white display-3 mt-lg-5">Artistas</h1>
+    <div class="d-inline-flex align-items-center text-white">
+    </div>
   </div>
 </div>
 <!-- Header End -->
@@ -11,60 +11,88 @@
 <!-- Modal Agregar Canción -->
 <div class="modal fade" id="modalAgregarCancion" tabindex="-1" role="dialog" aria-labelledby="modalAgregarCancionLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="modalAgregarCancionLabel">Agregar Canción</h5>
-              <button type="button" class="close" (click)="closeModal()" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-              <!-- Formulario para agregar canción -->
-              <form (ngSubmit)="agregarCancion()" #formularioCancion="ngForm">
-                  <div class="form-group">
-                      <label for="nombreCancion">Nombre de la Canción:</label>
-                      <input type="text" class="form-control" id="nombreCancion" name="nombreCancion" [(ngModel)]="nombreCancion" required>
-                  </div>
-                  <div class="form-group">
-                      <label for="artista">Artista:</label>
-                      <input type="text" class="form-control" id="artista" name="artista" [(ngModel)]="artistaSeleccionado.nombre" readonly required>
-                      <input type="hidden" id="idArtista" name="idArtista" [(ngModel)]="artistaSeleccionado.id">
-                  </div>
-                  <div class="form-group">
-                      <label for="imagenCancion">Imagen de la Canción:</label>
-                      <input type="file" class="form-control-file" id="imagenCancion" name="imagenCancion" (change)="onFileSelected($event)" accept="image/*" required>
-                      <img id="imagenPrevista" alt="Vista previa de la imagen" style="display: none;">
-                  </div>
-                  <div class="form-group">
-                      <label for="archivoCancion">Archivo de la Canción:</label>
-                      <input type="file" class="form-control-file" id="archivoCancion" name="archivoCancion" (change)="onFileSelected2($event)" accept="audio/*" required>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Agregar</button>
-              </form>
-          </div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAgregarCancionLabel">Agregar Canción</h5>
+        <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <div class="modal-body">
+        <form (ngSubmit)="agregarCancion()" #formularioCancion="ngForm">
+          <div class="form-group">
+            <label for="nombreCancion">Nombre de la Canción:</label>
+            <input type="text" class="form-control" id="nombreCancion" name="nombreCancion" [(ngModel)]="nombreCancion" required>
+          </div>
+          <div class="form-group">
+            <label for="artista">Artista:</label>
+            <input type="text" class="form-control" id="artista" name="artista" [(ngModel)]="artistaSeleccionado.nombre" readonly required>
+            <input type="hidden" id="idArtista" name="idArtista" [(ngModel)]="artistaSeleccionado.id">
+          </div>
+          <div class="form-group">
+            <label for="imagenCancion">Imagen de la Canción:</label>
+            <input type="file" class="form-control-file" id="imagenCancion" name="imagenCancion" (change)="onFileSelected($event)" accept="image/*" required>
+            <img id="imagenPrevista" alt="Vista previa de la imagen" style="display: none;">
+          </div>
+          <div class="form-group">
+            <label for="archivoCancion">Archivo de la Canción:</label>
+            <input type="file" class="form-control-file" id="archivoCancion" name="archivoCancion" (change)="onFileSelected2($event)" accept="audio/*" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Agregar</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 <!-- Fin del Modal Agregar Canción -->
 
+<!-- Search Bar -->
+<div class="container">
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-8">
+      <input type="text" class="form-control" placeholder="Buscar artista..." [(ngModel)]="searchText">
+    </div>
+  </div>
+</div>
+
+<!-- Artist List -->
 <div class="card m-5">
   <ul class="list-group list-group-flush">
-      <li *ngFor="let artista of artistas" class="list-group-item song-item">
-          <div class="row no-gutters">
-              <div class="col-md-4">
-                <img [src]="artista.imagen" alt="Imagen del artista" class="song-image" height="150px" width="50%">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">{{ artista.nombre }}</h5>
-                  <p class="card-text">
-                    <button class="btn btn-warning btn-sm me-2" (click)="editarItem(artista)">Editar</button>
-                    <button class="btn btn-danger btn-sm me-2" (click)="eliminarArtista(artista)">Eliminar</button>
-                    <button class="btn btn-primary btn-sm me-2" (click)="setArtistaSeleccionado(artista)">Agregar Canción</button>
-                  </p>
-                </div>
-              </div>
-            </div>
+    <li *ngFor="let artista of paginatedArtistas" class="list-group-item song-item">
+      <div class="row no-gutters">
+        <div class="col-md-3">
+          <img [src]="artista.imagen" alt="Imagen del artista" class="song-image" height="150px" width="50%">
+        </div>
+        <div class="col-md-9">
+          <div class="card-body">
+            <h5 class="card-title">{{ artista.nombre }}</h5>
+            <p class="card-text">
+              <button class="btn btn-warning btn-sm me-2" (click)="editarItem(artista)">Editar</button>
+              <button class="btn btn-danger btn-sm me-2" (click)="eliminarArtista(artista)">Eliminar</button>
+              <button class="btn btn-primary btn-sm me-2" (click)="setArtistaSeleccionado(artista)">Agregar Canción</button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <!-- Pagination Controls -->
+  <nav aria-label="Page navigation" class="my-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="currentPage === i + 1">
+        <a class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
       </li>
     </ul>
+  </nav>
 </div>

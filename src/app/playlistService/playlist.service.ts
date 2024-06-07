@@ -47,7 +47,7 @@ export class PlaylistService {
   }
 
   obtenerListCanciones(user: any): Observable<any> {
-    const url = `https://localhost:7078/api/cancion/GetAll?idplaylist=${user}`;
+    const url = `http://localhost:8080/api/cancionesplaylists/playlist/${user}/canciones`;
     return this.http.get(url);
   }
 
@@ -68,6 +68,12 @@ export class PlaylistService {
 
   EliminarsCancion(user: any): Observable<any> {
     const url = `http://localhost:8080/api/cancion/delete/${user}`;
+
+    return this.http.delete(url);
+  }
+
+  EliminarsCancionPlaylist(user: any): Observable<any> {
+    const url = `http://localhost:8080/api/cancionesplaylists/delete/${user}`;
 
     return this.http.delete(url);
   }

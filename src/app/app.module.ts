@@ -20,6 +20,7 @@ import { EditarArtistaComponent } from './editar-artista/editar-artista.componen
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

@@ -10,42 +10,26 @@ import { CookieService } from "ngx-cookie-service";
   templateUrl: './acciones-canciones.component.html',
   styleUrls: ['./acciones-canciones.component.css']
 })
-export class AccionesCancionesComponent implements OnInit{
+export class AccionesCancionesComponent implements OnInit {
 
   constructor(public PlaylistService: PlaylistService, private router: Router, private http: HttpClient, private cookieService: CookieService) { }
- 
+
   canciones: any[] = [];
-
-  nombre: string = "";
-  artista: string = ""; 
-  imagen: string = "";
-  cancion: string = "";
-  idplaylist: number = 0; 
-  playlist: string = "";
-
   categorias: any[] = [];
-  nombre2: string = "";
-  id2: number = 0;
-
   playlistSeleccionada: number | null = null;
-
-
-  CancionSeleccionada2: any = {}; // Variable para almacenar el artista seleccionado
-  
-  CancionSeleccionada(pr: any) {
-    this.CancionSeleccionada2 = pr;
-    this.openModal();
-  }
-
+  CancionSeleccionada2: any = {}; // Variable para almacenar la canción seleccionada
+  searchText: string = '';
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 1;
 
   ngOnInit(): void {
-
     this.PlaylistService.obtenerCanciones().subscribe(
       (data: any) => {
-        // Assuming data.token exists in the response
         if (data) {
           this.canciones = data;
-        } 
+          this.updateTotalPages();
+        }
       },
       (error) => {
         console.log(error);
@@ -54,110 +38,8 @@ export class AccionesCancionesComponent implements OnInit{
 
     this.PlaylistService.obtenerPlaylist().subscribe(
       (data: any) => {
-        // Assuming data.token exists in the response
         if (data) {
           this.categorias = data;
-        } 
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-    
-  }
-
-
-  editarItem(ejercicios: any) {
-    const id = ejercicios.id;
-    console.log(id)
-    // Crear una cookie con el categoryId como valor
-    this.cookieService.set('cancion', id);
-
-    // Realiza cualquier otra acción que necesites con el categoryId
-    console.log('ID de la categoría seleccionada:', id);
-
-    // También puedes verificar que la cookie se haya creado correctamente
-    const cookieValue = this.cookieService.get('cancion');
-    console.log('Valor de la cookie:', cookieValue);
-
-    this.router.navigateByUrl("/editar");
-  }
-
-
-  
-  
-  
-  mostrarAlerta() {
-    Swal.fire({
-      title: 'Se eliminó correctamente',
-      icon: 'success',
-      timer: 1000,
-      showConfirmButton: false,
-      didClose: () => {
-        window.location.reload();
-      }
-    });
-}
-
-
-
-
-
-
-
-
-
-GuardarEnPlayList() {
-  const formData = {
-    idCancion: Number(this.CancionSeleccionada2.id), // Convertir a número
-    idPlaylist: Number(this.playlistSeleccionada) // Convertir a número
-  };
-
-
-    // Imprimir los valores de formData en la consola
-    console.log('Datos del formulario:', formData);
-
-
-  this.PlaylistService.guardarCancionEnPlaylist(formData).subscribe(
-    (response: any) => {
-      console.log('Canción agregada a la playlist exitosamente:', response);
-      this.mostrarAlerta2();
-      this.closeModal();
-    },
-    (error) => {
-      console.error('Error agregando la canción a la playlist:', error);
-    }
-  );
-}
-
-
-mostrarAlerta2() {
-  Swal.fire({
-    title: 'Se Agrego a la Playlist',
-    icon: 'success',
-    timer: 1000,
-    showConfirmButton: false,
-    didClose: () => {
-      window.location.reload();
-    }
-  });
-}
-
-
-
-
-  eliminarCancion(ejercicios: any){
-
-    const id = ejercicios.id;
-    console.log(id)
-
-    this.PlaylistService.EliminarsCancion(id).subscribe(
-      (data: any) => {
-        // Assuming data.token exists in the response
-        if (data) {
-          this.canciones = data;
-        } else{
-          this.mostrarAlerta();
         }
       },
       (error) => {
@@ -166,10 +48,107 @@ mostrarAlerta2() {
     );
   }
 
+  updateTotalPages(): void {
+    this.totalPages = Math.ceil(this.canciones.length / this.itemsPerPage);
+  }
 
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
 
+  get filteredCanciones() {
+    return this.canciones.filter(cancion =>
+      cancion.nombre.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
 
+  get paginatedCanciones() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredCanciones.slice(startIndex, endIndex);
+  }
 
+  editarItem(cancion: any) {
+    const id = cancion.id;
+    console.log(id);
+    this.cookieService.set('cancion', id);
+    console.log('ID de la canción seleccionada:', id);
+    const cookieValue = this.cookieService.get('cancion');
+    console.log('Valor de la cookie:', cookieValue);
+    this.router.navigateByUrl("/editar");
+  }
+
+  
+
+  GuardarEnPlayList() {
+    const formData = {
+      idCancion: Number(this.CancionSeleccionada2.id),
+      idPlaylist: Number(this.playlistSeleccionada)
+    };
+    console.log('Datos del formulario:', formData);
+
+    this.PlaylistService.guardarCancionEnPlaylist(formData).subscribe(
+      (response: any) => {
+        console.log('Canción agregada a la playlist exitosamente:', response);
+        this.mostrarAlerta('Se Agregó a la Playlist', 'success');
+        this.closeModal();
+      },
+      (error) => {
+        console.error('Error agregando la canción a la playlist:', error);
+      }
+    );
+  }
+
+  eliminarCancion(cancion: any) {
+    const id = cancion.id;
+    console.log(id);
+  
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará la canción seleccionada. ¿Quieres continuar?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.PlaylistService.EliminarsCancion(id).subscribe(
+          (data: any) => {
+            if (data) {
+              this.canciones = data;
+            } else {
+              this.mostrarAlerta('Se eliminó correctamente', 'success');
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    });
+  }
+  
+  mostrarAlerta(mensaje: string, icono: any) {
+    Swal.fire({
+      title: mensaje,
+      icon: icono,
+      timer: 1000,
+      showConfirmButton: false,
+      didClose: () => {
+        window.location.reload();
+      }
+    });
+  }
+  
+
+  CancionSeleccionada(cancion: any) {
+    this.CancionSeleccionada2 = cancion;
+    this.openModal();
+  }
 
   openModal() {
     const modalElement = document.getElementById('modalAgregarCancion');
@@ -180,7 +159,7 @@ mostrarAlerta2() {
       modalElement.setAttribute('aria-hidden', 'false');
     }
   }
-  
+
   closeModal() {
     const modalElement = document.getElementById('modalAgregarCancion');
     if (modalElement) {
@@ -190,5 +169,4 @@ mostrarAlerta2() {
       modalElement.setAttribute('aria-hidden', 'true');
     }
   }
-
 }

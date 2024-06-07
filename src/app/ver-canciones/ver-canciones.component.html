@@ -1,38 +1,85 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
 <!-- Header Start -->
 <div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
-    <div class="container text-center py-5">
-        <h1 class="text-white display-3 mt-lg-5">Reproduciendo playlist</h1>
-        <div class="d-inline-flex align-items-center text-white">
-        </div>
-    </div>
+  <div class="container text-center py-5">
+    <h1 class="text-white display-3 mt-lg-5">Reproduciendo playlist</h1>
+    <div class="d-inline-flex align-items-center text-white"></div>
+  </div>
 </div>
 <!-- Header End -->
 
-
 <div class="card m-5">
-    <div class="position-relative">
-        <img src="assets/img/kirby.jpg" style="opacity: 60%;" alt="Imagen de portada" height="160px" width="100%" class="card-img-top">
-        <div class="card-img-overlay">
-          <h5 class="card-title" style="color: black;"><strong>Lista de Canciones</strong></h5>
-        </div>
-      </div>
-    <div class="card-body">
-        <ul class="list-group list-group-flush">
-            <li *ngFor="let cancion of canciones" class="list-group-item song-item">
-              <div class="song-cover">
-                <img [src]="cancion.imagen" alt="Portada de la canción" class="song-image">
-              </div>
-              <div class="song-info">
-                <h3 class="song-title">{{ cancion.nombre }}</h3>
-                <p class="song-artist">{{ cancion.artista }}</p>
-              </div>
-              <audio controls>
-                <source [src]="cancion.cancion" type="audio/mpeg">
-                Tu navegador no soporta el elemento de audio.
-              </audio>
-            </li>
-          </ul>
+  <div class="position-relative">
+    <img src="assets/img/kirby.jpg" style="opacity: 60%;" alt="Imagen de portada" height="160px" width="100%" class="card-img-top">
+    <div class="card-img-overlay">
+      <h5 class="card-title" style="color: black;"><strong>Canciones</strong></h5>
     </div>
   </div>
-  
-  
+  <div class="card-body">
+
+    <!-- Search Bar -->
+    <div class="container">
+      <div class="row justify-content-center mb-4">
+        <div class="col-md-8">
+          <input type="text" class="form-control" placeholder="Buscar canción..." [(ngModel)]="searchText">
+        </div>
+      </div>
+    </div>
+
+    <!-- Song List -->
+    <div class="container-fluid fondo-con-imagen">
+      <table class="table table-striped custom-table">
+        <thead>
+          <tr>
+            <th>   </th>
+            <th>Información</th>
+            <th>Reproducir</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cancion of paginatedCanciones">
+            <td class="song-cover" style="width: 100px;"><img [src]="cancion.imagen" alt="{{ cancion.nombre }}" class="song-cover" style="max-width: 100px; height: auto;"/></td>
+            <td class="song-info" style="width: 150px;">
+              <h3 class="song-title">{{ cancion.nombre }}</h3>
+              <p class="song-artist">{{ cancion.artista }}</p>
+            </td>
+            <td style="width: 700px;"> 
+              <audio controls>
+                <source [src]="cancion.cancionArchivo" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+              </audio>
+            </td>
+            <td>
+              <button class="btn btn-danger ms-2 me-2" (click)="eliminarCancionPlaylist(cancion)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination Controls -->
+      <nav aria-label="Page navigation" class="my-4">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="currentPage === i + 1">
+            <a class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

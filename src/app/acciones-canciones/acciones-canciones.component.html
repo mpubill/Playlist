@@ -1,74 +1,90 @@
-    <!-- Header Start -->
-    <div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
-        <div class="container text-center py-5">
-            <h1 class="text-white display-3 mt-lg-5">Canciones</h1>
-            <div class="d-inline-flex align-items-center text-white">
-            </div>
-        </div>
-    </div>
-    <!-- Header End -->
-
-    <!-- Modal Agregar Canción -->
-<div class="modal fade" id="modalAgregarCancion" tabindex="-1" role="dialog" aria-labelledby="modalAgregarCancionLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalAgregarCancionLabel">Agregar Canción</h5>
-                <button type="button" class="close" (click)="closeModal()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Formulario para agregar canción -->
-                <form (ngSubmit)="GuardarEnPlayList()" #formularioCancion="ngForm">
-                    <div class="form-group">
-                        <label for="playlist">Selecciona una Playlist:</label>
-                        <select class="form-control" id="playlist" name="playlist" [(ngModel)]="playlistSeleccionada" required>
-                          <option *ngFor="let playlist of categorias" [value]="playlist.id">
-                            {{ playlist.nombre }}
-                          </option>
-                        </select>
-                        <input type="hidden" id="idArtista" name="idArtista" [(ngModel)]="CancionSeleccionada2.id">
-                      </div>
-                        
-                    
-                    <button type="submit" class="btn btn-primary">Agregar</button>
-                </form>
-            </div>
-        </div>
+<!-- Header Start -->
+<div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 90px;">
+    <div class="container text-center py-5">
+      <h1 class="text-white display-3 mt-lg-5">Canciones</h1>
+      <div class="d-inline-flex align-items-center text-white"></div>
     </div>
   </div>
-
-<div class="container-fluid fondo-con-imagen">
+  <!-- Header End -->
+  
+  <!-- Modal Agregar Canción -->
+  <div class="modal fade" id="modalAgregarCancion" tabindex="-1" role="dialog" aria-labelledby="modalAgregarCancionLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalAgregarCancionLabel">Agregar Canción</h5>
+          <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="GuardarEnPlayList()" #formularioCancion="ngForm">
+            <div class="form-group">
+              <label for="playlist">Selecciona una Playlist:</label>
+              <select class="form-control" id="playlist" name="playlist" [(ngModel)]="playlistSeleccionada" required>
+                <option *ngFor="let playlist of categorias" [value]="playlist.id">
+                  {{ playlist.nombre }}
+                </option>
+              </select>
+              <input type="hidden" id="idArtista" name="idArtista" [(ngModel)]="CancionSeleccionada2.id">
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Search Bar -->
+  <div class="container">
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-8">
+        <input type="text" class="form-control" placeholder="Buscar canción..." [(ngModel)]="searchText">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Song List -->
+  <div class="container-fluid fondo-con-imagen">
     <table class="table table-striped custom-table">
-        <thead>
-            <tr>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>artista</th>
-                <th>Acciones</th> <!-- Agregamos una columna para las acciones -->
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let pr of canciones">
-                <td>
-                    <img [src]="pr.imagen" alt="{{ pr.nombre }}" class="table-image-extra-small" />
-                </td>
-                <td>
-                    <h5 class="table-title">{{ pr.nombre }}</h5>
-                </td>
-                <td>
-                    <p class="table-description">{{ pr.artista }}</p>
-                </td>
-                <td>
-                    <button class="btn btn-primary me-2" (click)="CancionSeleccionada(pr)"> <!-- Botón para editar -->
-                        Agregar a playlist<!-- Ícono de editar (usando FontAwesome) -->
-                    </button>
-                    <button class="btn btn-danger" (click)="eliminarCancion(pr)"> Eliminar<!-- Ícono de eliminar (usando FontAwesome) -->
-                    </button>
-                </td>
-            </tr>
-        </tbody>
+      <thead>
+        <tr>
+          <th>Imagen</th>
+          <th>Nombre</th>
+          <th>Artista</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pr of paginatedCanciones">
+          <td><img [src]="pr.imagen" alt="{{ pr.nombre }}" class="table-image-extra-small" /></td>
+          <td><h5 class="table-title">{{ pr.nombre }}</h5></td>
+          <td><p class="table-description">{{ pr.artista }}</p></td>
+          <td>
+            <button class="btn btn-primary me-2" (click)="CancionSeleccionada(pr)">Agregar a playlist</button>
+            <button class="btn btn-danger" (click)="eliminarCancion(pr)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
     </table>
-</div>
-
+  
+    <!-- Pagination Controls -->
+    <nav aria-label="Page navigation" class="my-4">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="currentPage === i + 1">
+          <a class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  
